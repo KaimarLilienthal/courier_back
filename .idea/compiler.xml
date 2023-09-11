@@ -4,15 +4,18 @@
     <annotationProcessing>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
+        <option name="mapstruct.defaultComponentModel" value="spring" />
+        <option name="mapstruct.unmappedTargetPolicy" value="IGNORE" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.28/a2ff5da8bcd8b1b26f36b806ced63213362c6dcc/lombok-1.18.28.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.5.Final/897f6f115930b936287bef552bf5fe28cc64717d/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
-        <module name="courier.courier.main~1" />
+        <module name="courier.courier.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="courier.courier.main" target="17" />
-      <module name="courier.courier.test" target="17" />
+      <module name="courier.courier.main~1" target="17" />
+      <module name="courier.courier.test~1" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
