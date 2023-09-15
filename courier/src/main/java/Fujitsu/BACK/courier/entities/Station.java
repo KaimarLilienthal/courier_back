@@ -2,13 +2,12 @@ package Fujitsu.BACK.courier.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
-@Data
+
 @Getter
 @Setter
 @Entity
@@ -19,9 +18,9 @@ public class Station {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @Size(max = 1000000000)
     @NotNull
-    @Lob
-    @Column(name = "STATION_NAME", nullable = false)
+    @Column(name = "STATION_NAME", nullable = false, length = 1000000000)
     private String stationName;
 
     @NotNull
@@ -29,19 +28,19 @@ public class Station {
     private Integer wmoCode;
 
     @NotNull
-    @Column(name = "AIT_TEMPERATURE", nullable = false)
-    private Double aitTemperature;
+    @Column(name = "AIR_TEMPERATURE", nullable = false)
+    private Double airTemperature;
 
     @NotNull
     @Column(name = "WIND_SPEED", nullable = false)
     private Double windSpeed;
 
+    @Size(max = 1000000000)
     @NotNull
-    @Lob
-    @Column(name = "WEATHER_PHENOMENON", nullable = false)
+    @Column(name = "WEATHER_PHENOMENON", nullable = false, length = 1000000000)
     private String weatherPhenomenon;
 
-    @CreationTimestamp
+    @NotNull
     @Column(name = "TIMESTAMP", nullable = false)
     private Instant timestamp;
 
