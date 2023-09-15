@@ -27,7 +27,7 @@ public class DeliveryFeeService {
         } else if (cityId.equals(3) && vehicleId.equals(3)) {
             RBF = 2.0;
         }
-        return RBF;
+
         if (cityId.equals(1)) {
             stationName = "Tallinn-Harku";
         } else if (cityId.equals(2)) {
@@ -61,7 +61,7 @@ public class DeliveryFeeService {
         } else if (vehicleId.equals(2) || vehicleId.equals(3) && weatherPhenomenon.equals("rain")) {
             WPEF = 0.5;
         }
-
+        return RBF + ATEF + WSEF + WPEF;
 
     }
 }
