@@ -20,8 +20,9 @@ public class DeliveryFeeController {
             description = "ATEF-air temperature, WSEF-wind speed, WPEF-weather phenomenon" +
                     "cityId's: Tallinn=1, Tartu=2, Pärnu=3" +
                     "vehicleId's: car=1, scooter=2, bike=3")
-    public void getDeliveryFee(@RequestParam Integer cityId, @RequestParam Integer vehicleId){
-        Double fee = deliveryFeeService.calculateDeliveryFee(cityId, vehicleId);
+    public Double getDeliveryFee(@RequestParam Integer cityId, @RequestParam Integer vehicleId){
+        return deliveryFeeService.calculateDeliveryFee(cityId, vehicleId);
+
     }
 
 }

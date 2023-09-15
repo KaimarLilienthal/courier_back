@@ -19,7 +19,7 @@ public class CourierApplication {
 	@Autowired
 	private WeatherDataImportExportService weatherDataImportService;
 
-	@Scheduled(cron = "${cron.expression:0 25 * * * ?}")
+	@Scheduled(cron = "${cron.expression:0 15 * * * ?}")
 	public void importWeatherDataJob() throws IOException {
 		weatherDataImportService.importWeatherData();
 	}
