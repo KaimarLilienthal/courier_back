@@ -16,7 +16,10 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-
+/**
+ * Service responsible for importing weather data from an external source
+ * and storing it in the application's database.
+ */
 @Service
 public class WeatherDataImportExportService {
     @Resource
@@ -29,6 +32,11 @@ public class WeatherDataImportExportService {
 
     private final Logger logger = LoggerFactory.getLogger(WeatherDataImportExportService.class);
 
+    /**
+     * Imports weather data from an external source and saves it to the database.
+     *
+     * @throws IOException If there is an error while fetching or parsing the weather data.
+     */
     @Transactional
     public void importWeatherData() throws IOException {
         try {
