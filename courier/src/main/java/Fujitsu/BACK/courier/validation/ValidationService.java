@@ -13,7 +13,7 @@ public class ValidationService {
      *
      * @throws BusinessException If the selected weather phenomenon type is forbidden.
      */
-    public static void validateWeatherPhenomenonType() {
+    public static void validateWeatherPhenomenonAndWindSpeedType() {
         throw new BusinessException(Error.VEHICLE_TYPE_FORBIDDEN.getMessage(), Error.VEHICLE_TYPE_FORBIDDEN.getErrorCode());
     }
 

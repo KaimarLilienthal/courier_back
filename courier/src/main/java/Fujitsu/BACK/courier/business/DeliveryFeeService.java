@@ -50,90 +50,16 @@ public class DeliveryFeeService {
 
         basicInformationToLogger(cityId, vehicleId, selectedStationName, airTemperature, windSpeed, weatherPhenomenon, regionalBaseFee, airTemperatureExtraFeeCalculation, windSpeedExtraFeeCalculation, weatherPhenomenonExtraFeeCalculation);
 
+        try {
+            ValidationService.validateWeatherPhenomenonAndWindSpeedType();
+        } catch (BusinessException e) {
+            logger.error("An error occurred: {}", e.getMessage());
+            return 0.0;
+        }
+
         return deliveryFeeCalculation(regionalBaseFee, airTemperatureExtraFeeCalculation, windSpeedExtraFeeCalculation, weatherPhenomenonExtraFeeCalculation);
 
     }
-
-    private static Double deliveryFeeCalculation(double baseFee, double airTemperatureExtraFee, double windSpeedExtraFee, double weatherPhenomenonExtraFeeCalculation) {
-        return baseFee + airTemperatureExtraFee + windSpeedExtraFee + weatherPhenomenonExtraFeeCalculation;
-    }
-
-    private static void basicInformationToLogger(Integer cityId, Integer vehicleId, String selectedStationName, double airTemperature, double windSpeed, String weatherPhenomenon, double baseFee, double airTemperatureExtraFee, double windSpeedExtraFee, double weatherPhenomenonExtraFeeCalculation) {
-        logger.info("cityId: {}", cityId);
-        logger.info("vehicleId: {}", vehicleId);
-        logger.info("city: {}", selectedStationName);
-        logger.info("airTemp: {}", airTemperature);
-        logger.info("windspeed: {}", windSpeed);
-        logger.info("wetherphen: {}", weatherPhenomenon);
-        logger.info("calculating fee RBF: {}", baseFee);
-        logger.info("calculating fee ATEF: {}", airTemperatureExtraFee);
-        logger.info("calculating fee WSEF: {}", windSpeedExtraFee);
-        logger.info("calculating fee WPEF: {}", weatherPhenomenonExtraFeeCalculation);
-    }
-
-    private static double getWeatherPhenomenonExtrafeeCalculation(Integer vehicleId, String weatherPhenomenon) {
-        double weatherPhenomenonExtraFeeCalculation = 0.0;
-        if ((vehicleId.equals(2) || vehicleId.equals(3)) && ((weatherPhenomenon.equalsIgnoreCase("glaze") || weatherPhenomenon.toLowerCase().contains("glaze") || weatherPhenomenon.equalsIgnoreCase("hall") || weatherPhenomenon.toLowerCase().contains("hall") || weatherPhenomenon.equalsIgnoreCase("thunder") || weatherPhenomenon.toLowerCase().contains("thunder")))) {
-            try {
-                ValidationService.validateWeatherPhenomenonType();
-            } catch (BusinessException e) {
-                logger.error("An error occurred: {}", e.getMessage());
-                return 0.0;
-            }
-        } else if ((vehicleId.equals(2) || vehicleId.equals(3)) && ((weatherPhenomenon.equalsIgnoreCase("snow") || weatherPhenomenon.toLowerCase().contains("snow") || weatherPhenomenon.equalsIgnoreCase("sleet") || weatherPhenomenon.toLowerCase().contains("sleet")))) {
-            weatherPhenomenonExtraFeeCalculation = 1.0;
-        } else if ((vehicleId.equals(2) || vehicleId.equals(3)) && (weatherPhenomenon.equalsIgnoreCase("rain") || weatherPhenomenon.toLowerCase().contains("rain"))) {
-            weatherPhenomenonExtraFeeCalculation = 0.5;
-        } else {
-            weatherPhenomenonExtraFeeCalculation = 0.0;
-        }
-        return weatherPhenomenonExtraFeeCalculation;
-    }
-
-    private static double getWindSpeedExtraFeeCalculation(Integer vehicleId, double windSpeed) {
-        double windSpeedExtraFee = 0.0;
-
-        if ((vehicleId.equals(3)) && (windSpeed > 20.0)) {
-            try {
-                ValidationService.validateWeatherPhenomenonType();
-            } catch (BusinessException e) {
-                logger.error("An error occurred: {}", e.getMessage());
-                return 0.0;
-            }
-        } else if (vehicleId.equals(3) && (windSpeed >= 10.0 && windSpeed <= 20.0)) {
-            windSpeedExtraFee = 0.5;
-        } else {
-            windSpeedExtraFee = 0.0;
-        }
-        return windSpeedExtraFee;
-    }
-
-    private static double getAirTemperatureExtraFeeCalculation(Integer vehicleId, double airTemperature) {
-        double airTemperatureExtraFee = 0.0;
-
-
-        if ((vehicleId.equals(2) || vehicleId.equals(3)) && airTemperature < -10.0) {
-            airTemperatureExtraFee = 1.0;
-        } else if ((vehicleId.equals(2) || vehicleId.equals(3)) && (airTemperature >= -10.0 && airTemperature <= 0.0)) {
-            airTemperatureExtraFee = 0.5;
-        } else {
-            airTemperatureExtraFee = 0.0;
-        }
-        return airTemperatureExtraFee;
-    }
-
-    private static String getSelectedStationName(Integer cityId) {
-        String selectedStationName = "";
-        if (cityId.equals(1)) {
-            selectedStationName = "Tallinn-Harku";
-        } else if (cityId.equals(2)) {
-            selectedStationName = "Tartu-Tõravere";
-        } else if (cityId.equals(3)) {
-            selectedStationName = "Pärnu";
-        }
-        return selectedStationName;
-    }
-
     private static double getRegionalBaseFee(Integer cityId, Integer vehicleId) {
         double baseFee = 0.0;
 
@@ -154,4 +80,77 @@ public class DeliveryFeeService {
         }
         return baseFee;
     }
+    private static String getSelectedStationName(Integer cityId) {
+        String selectedStationName = "";
+        if (cityId.equals(1)) {
+            selectedStationName = "Tallinn-Harku";
+        } else if (cityId.equals(2)) {
+            selectedStationName = "Tartu-Tõravere";
+        } else if (cityId.equals(3)) {
+            selectedStationName = "Pärnu";
+        }
+        return selectedStationName;
+    }
+    private static double getAirTemperatureExtraFeeCalculation(Integer vehicleId, double airTemperature) {
+        double airTemperatureExtraFee = 0.0;
+
+
+        if ((vehicleId.equals(2) || vehicleId.equals(3)) && airTemperature < -10.0) {
+            airTemperatureExtraFee = 1.0;
+        } else if ((vehicleId.equals(2) || vehicleId.equals(3)) && (airTemperature >= -10.0 && airTemperature <= 0.0)) {
+            airTemperatureExtraFee = 0.5;
+        } else {
+            airTemperatureExtraFee = 0.0;
+        }
+        return airTemperatureExtraFee;
+    }
+    private static double getWindSpeedExtraFeeCalculation(Integer vehicleId, double windSpeed) {
+        double windSpeedExtraFee = 0.0;
+
+        if ((vehicleId.equals(3)) && (windSpeed > 20.0)) {
+            try {
+                ValidationService.validateWeatherPhenomenonAndWindSpeedType();
+            } catch (BusinessException e) {
+                return 0.0;
+            }
+        } else if (vehicleId.equals(3) && (windSpeed >= 10.0 && windSpeed <= 20.0)) {
+            windSpeedExtraFee = 0.5;
+        } else {
+            windSpeedExtraFee = 0.0;
+        }
+        return windSpeedExtraFee;
+    }
+    private static double getWeatherPhenomenonExtrafeeCalculation(Integer vehicleId, String weatherPhenomenon) {
+        double weatherPhenomenonExtraFeeCalculation = 0.0;
+        if ((vehicleId.equals(2) || vehicleId.equals(3)) && ((weatherPhenomenon.equalsIgnoreCase("glaze") || weatherPhenomenon.toLowerCase().contains("glaze") || weatherPhenomenon.equalsIgnoreCase("hall") || weatherPhenomenon.toLowerCase().contains("hall") || weatherPhenomenon.equalsIgnoreCase("thunder") || weatherPhenomenon.toLowerCase().contains("thunder")))) {
+            try {
+                ValidationService.validateWeatherPhenomenonAndWindSpeedType();
+            } catch (BusinessException e) {
+                return 0.0;
+            }
+        } else if ((vehicleId.equals(2) || vehicleId.equals(3)) && ((weatherPhenomenon.equalsIgnoreCase("snow") || weatherPhenomenon.toLowerCase().contains("snow") || weatherPhenomenon.equalsIgnoreCase("sleet") || weatherPhenomenon.toLowerCase().contains("sleet")))) {
+            weatherPhenomenonExtraFeeCalculation = 1.0;
+        } else if ((vehicleId.equals(2) || vehicleId.equals(3)) && (weatherPhenomenon.equalsIgnoreCase("rain") || weatherPhenomenon.toLowerCase().contains("rain"))) {
+            weatherPhenomenonExtraFeeCalculation = 0.5;
+        } else {
+            weatherPhenomenonExtraFeeCalculation = 0.0;
+        }
+        return weatherPhenomenonExtraFeeCalculation;
+    }
+    private static void basicInformationToLogger(Integer cityId, Integer vehicleId, String selectedStationName, double airTemperature, double windSpeed, String weatherPhenomenon, double baseFee, double airTemperatureExtraFee, double windSpeedExtraFee, double weatherPhenomenonExtraFeeCalculation) {
+        logger.info("cityId: {}", cityId);
+        logger.info("vehicleId: {}", vehicleId);
+        logger.info("city: {}", selectedStationName);
+        logger.info("airTemp: {}", airTemperature);
+        logger.info("windspeed: {}", windSpeed);
+        logger.info("wetherphen: {}", weatherPhenomenon);
+        logger.info("calculating fee RBF: {}", baseFee);
+        logger.info("calculating fee ATEF: {}", airTemperatureExtraFee);
+        logger.info("calculating fee WSEF: {}", windSpeedExtraFee);
+        logger.info("calculating fee WPEF: {}", weatherPhenomenonExtraFeeCalculation);
+    }
+    private static Double deliveryFeeCalculation(double baseFee, double airTemperatureExtraFee, double windSpeedExtraFee, double weatherPhenomenonExtraFeeCalculation) {
+        return baseFee + airTemperatureExtraFee + windSpeedExtraFee + weatherPhenomenonExtraFeeCalculation;
+    }
+
 }
