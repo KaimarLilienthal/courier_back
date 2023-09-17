@@ -1,4 +1,4 @@
-package Fujitsu.BACK.courier.entities;
+package Fujitsu.BACK.courier.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

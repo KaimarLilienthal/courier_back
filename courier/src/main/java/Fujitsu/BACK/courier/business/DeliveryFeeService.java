@@ -1,7 +1,7 @@
 package Fujitsu.BACK.courier.business;
 
-import Fujitsu.BACK.courier.entities.Station;
-import Fujitsu.BACK.courier.entities.StationRepository;
+import Fujitsu.BACK.courier.domain.entities.Station;
+import Fujitsu.BACK.courier.domain.entities.StationRepository;
 import Fujitsu.BACK.courier.infrastructure.exception.BusinessException;
 import Fujitsu.BACK.courier.validation.ValidationService;
 import jakarta.annotation.Resource;

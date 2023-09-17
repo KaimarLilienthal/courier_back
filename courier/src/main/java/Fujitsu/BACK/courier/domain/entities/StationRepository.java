@@ -1,9 +1,8 @@
-package Fujitsu.BACK.courier.entities;
+package Fujitsu.BACK.courier.domain.entities;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.Instant;
 import java.util.List;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
