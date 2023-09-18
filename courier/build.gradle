@@ -34,6 +34,7 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.18'
 
 
 	implementation 'com.h2database:h2:2.2.222'
@@ -44,10 +45,10 @@ dependencies {
 
 }
 
-compileJava {
-	// Ignoring Unmapped Properties (no error, no warning), Inject Spring Components into the Mapper
-	options.compilerArgs += ['-Amapstruct.unmappedTargetPolicy=IGNORE', '-Amapstruct.defaultComponentModel=spring']
-}
+//compileJava {
+//	// Ignoring Unmapped Properties (no error, no warning), Inject Spring Components into the Mapper
+//	options.compilerArgs += ['-Amapstruct.unmappedTargetPolicy=IGNORE', '-Amapstruct.defaultComponentModel=spring']
+//}
 
 
 tasks.named('test') {
